@@ -1,0 +1,93 @@
+package services {
+    package database {
+        class PostgreSQLDatabase {
+            + connect()
+            + close()
+            + query()
+            + getInstance()
+        }
+    }
+
+    package controller {
+        class Request {
+            - array parameters
+            + self addParameter(string key, mixed value)
+            + array getParameters()
+        }
+
+        class Response {
+            - array elements
+            + self addElement(string key, mixed value)
+            + array getResponse()
+        }
+    }
+}
+
+package features {
+    package RegisterUser {
+        package RegisterUserMain {
+            package database {
+                class PostgreSQLDatabase implements RegisterUserGateway {
+                    + boolean registerUser(UserRegistrationInput userRegistrationInput)
+                }
+            }
+
+            package router {
+                class RegisterUserRouter {
+                    // register "post" route to register new user
+                }
+            }
+        }
+
+        package RegisterUserController {
+            class RegisterUserController {
+                + Response handleRequest(Request request)
+            }
+
+            class RegisterUserPresenter {
+                + Response getResponse()
+                + void retrieveRegisterUserOutput(RegisterUserOutput registerUserOutput)
+            }
+        }
+
+        package RegisterUserUseCase {
+            class RegisterUserUseCase {
+                + RegisterUserOutput registerUser(UserRegistrationInput userRegistrationInput)
+            }
+
+            interface RegisterUserInput {
+                + RegisterUserOutput registerUser(UserRegistrationInput userRegistrationInput)
+            }
+
+            class UserRegistrationInput {
+                - string username
+                - string email
+                - string password
+                - string firstname
+                - string lastname
+                + string getUsername()
+                + self setUsername(string username)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+                + string getFirstname()
+                + self setFirstname(string firstname)
+                + string getLastname()
+                + self setLastname(string lastname)
+            }
+
+            interface RegisterUserGateway {
+                + boolean registerUser(UserRegistrationInput userRegistrationInput)
+            }
+
+            class UserRegistrationOutput {
+                + boolean user_is_registered
+            }
+
+            interface RegisterUserOutput {
+                + void retrieveUserRegistrationOutput(UserRegistrationOutput userRegistrationOutput)
+            }
+        }
+    }
+}
