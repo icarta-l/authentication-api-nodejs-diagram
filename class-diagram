@@ -37,16 +37,44 @@ package features {
                     // register "post" route to register new user
                 }
             }
+
+            package tests {
+                // RegisterUserTests.ts file
+            }
         }
 
         package RegisterUserController {
             class RegisterUserController {
-                + Response handleRequest(Request request)
+                + Response handleRegisterUserRequest(RegisterUserRequest registerUserRequest)
+            }
+
+            class RegisterUserRequest {
+                - string username
+                - string email
+                - string password
+                - string firstname
+                - string lastname
+                + string getUsername()
+                + self setUsername(string username)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+                + string getFirstname()
+                + self setFirstname(string firstname)
+                + string getLastname()
+                + self setLastname(string lastname)
             }
 
             class RegisterUserPresenter {
-                + Response getResponse()
+                + Response getRegisterUserResponse()
                 + void retrieveRegisterUserOutput(RegisterUserOutput registerUserOutput)
+            }
+
+            class RegisterUserResponse {
+                - boolean user_is_registered
+                + boolean userIsRegistered()
+                + self setWetherUserSuccessfullyRegistered(boolean user_is_registered)
             }
         }
 
@@ -87,6 +115,162 @@ package features {
 
             interface RegisterUserOutput {
                 + void retrieveUserRegistrationOutput(UserRegistrationOutput userRegistrationOutput)
+            }
+        }
+    }
+
+    package AuthenticateUser {
+        package AuthenticateUserMain {
+            package database {
+                class PostgreSQLDatabase implements AuthenticateUserGateway {
+                    + boolean authenticateUser(UserAuthenticationInput userAuthenticationInput)
+                }
+            }
+
+            package router {
+                class AuthenticateUserRouter {
+                    // register "post" route to register new user
+                }
+            }
+
+            package tests {
+                // AuthenticateUserTests.ts file
+            }
+        }
+
+        package AuthenticateUserController {
+            class AuthenticateUserController {
+                + AuthenticateUserResponse handleAuthenticateUserRequest(AuthenticateUserRequest authenticateUserRequest)
+            }
+
+            class AuthenticateUserRequest {
+                - string email
+                - string password
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+            }
+
+            class AuthenticateUserPresenter {
+                + Response getAuthenticateUserResponse()
+                + void retrieveAuthenticateUserOutput(AuthenticateUserOutput AuthenticateUserOutput)
+            }
+
+            class AuthenticateUserResponse {
+                - boolean user_is_logged_in
+                - string access_token
+                + boolean userIsLoggedIn()
+                + self setWetherUserSuccessfullyLoggedIn(boolean user_is_logged_in)
+                + string getAccessToken()
+                + self setAccessToker(string access_token)
+            }
+        }
+
+        package AuthenticateUserUseCase {
+            class AuthenticateUserUseCase {
+                + AuthenticateUserOutput authenticateUser(UserAuthenticationInput userAuthenticationInput)
+            }
+
+            interface AuthenticateUserInput {
+                + AuthenticateUserOutput authenticateUser(UserAuthenticationInput userAuthenticationInput)
+            }
+
+            class UserAuthenticationInput {
+                - string email
+                - string password
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+            }
+
+            interface AuthenticateUserGateway {
+                + boolean AuthenticateUser(string email, string password)
+            }
+
+            class UserAuthenticationOutput {
+                + boolean user_is_logged_in
+                + string accessToken
+            }
+
+            interface AuthenticateUserOutput {
+                + void retrieveUserAuthenticationOutput(UserAuthenticationOutput userAuthenticationOutput)
+            }
+        }
+    }
+
+    package RefreshToken {
+        package RefreshTokenMain {
+            package database {
+                class PostgreSQLDatabase implements RefreshTokenGateway {
+                    + boolean RefreshToken(UserAuthenticationInput userAuthenticationInput)
+                }
+            }
+
+            package router {
+                class RefreshTokenRouter {
+                    // register "post" route to register new user
+                }
+            }
+
+            package tests {
+                // RefreshTokenTests.ts file
+            }
+        }
+
+        package RefreshTokenController {
+            class RefreshTokenController {
+                + RefreshTokenResponse handleRefreshTokenRequest(RefreshTokenRequest refreshTokenRequest)
+            }
+
+            class RefreshTokenRequest {
+                - string refreshToken
+                + string getRefreshToken()
+                + self setRefreshToken(string refreshToken)
+            }
+
+            class RefreshTokenPresenter {
+                + Response getRefreshTokenResponse()
+                + void retrieveRefreshTokenOutput(RefreshTokenOutput refreshTokenOutput)
+            }
+
+            class RefreshTokenResponse {
+                - boolean tokenIsRefreshed
+                - string accessToken
+                + boolean tokenIsRefreshed()
+                + self setWethertokenIsRefreshed(boolean tokenIsRefreshed)
+                + string getAccessToken()
+                + self setAccessToker(string accessToken)
+            }
+        }
+
+        package RefreshTokenUseCase {
+            class RefreshTokenUseCase {
+                + RefreshTokenOutput refreshToken(TokenRefreshingInput tokenRefreshingInput)
+            }
+
+            interface RefreshTokenInput {
+                + RefreshTokenOutput refreshToken(TokenRefreshingInput tokenRefreshingInput)
+            }
+
+            class TokenRefreshingInput {
+                - string refreshToken
+                + string getRefreshToken()
+                + self setRefreshToken(string refreshToken)
+            }
+
+            interface TokenProviderGateway {
+                + string refreshToken(string refreshToken)
+            }
+
+            class TokenRefreshingOutput {
+                + boolean tokenHasBeenRefreshed
+                + string accessToken
+            }
+
+            interface RefreshTokenOutput {
+                + void retrieveTokenRefreshingOutput(TokenRefreshingOutput tokenRefreshingOutput)
             }
         }
     }
