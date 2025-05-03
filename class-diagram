@@ -45,7 +45,7 @@ package features {
 
         package RegisterUserController {
             class RegisterUserController {
-                + Response handleRegisterUserRequest(RegisterUserRequest registerUserRequest)
+                + Response handleRegisterUserRequest(RegisterUserRequest registerUserRequest, RegisterUserGateway registerUserGateway)
             }
 
             class RegisterUserRequest {
@@ -68,7 +68,7 @@ package features {
 
             class RegisterUserPresenter {
                 + Response getRegisterUserResponse()
-                + void retrieveRegisterUserOutput(RegisterUserOutput registerUserOutput)
+                + void retrieveUserRegistrationOutput(UserRegistrationOutput userRegistrationOutput)
             }
 
             class RegisterUserResponse {
@@ -80,11 +80,11 @@ package features {
 
         package RegisterUserUseCase {
             class RegisterUserUseCase {
-                + RegisterUserOutput registerUser(UserRegistrationInput userRegistrationInput)
+                + UserRegistrationOutput registerUser(UserRegistrationInput userRegistrationInput, RegisterUserGateway registerUserGateway)
             }
 
             interface RegisterUserInput {
-                + RegisterUserOutput registerUser(UserRegistrationInput userRegistrationInput)
+                + UserRegistrationOutput registerUser(UserRegistrationInput userRegistrationInput, RegisterUserGateway registerUserGateway)
             }
 
             class UserRegistrationInput {
@@ -110,7 +110,9 @@ package features {
             }
 
             class UserRegistrationOutput {
-                + boolean user_is_registered
+                - boolean userIsRegistered
+                + boolean userIsRegistered()
+                + self setWetherUserSuccessfullyRegistered(boolean userIsRegistered)
             }
 
             interface RegisterUserOutput {
