@@ -41,11 +41,23 @@ package features {
             package tests {
                 // RegisterUserTests.ts file
             }
+
+            package validation {
+                class JoiValidation implements UserRegistrationInputValidator {
+                    - Joi joiValidationLibrary
+                    + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
+                    + boolean usernameHasAtLeat3Letters(string username)
+                    + boolean emailIsValid(string email)
+                    + boolean passwordIsValid(string password)
+                    + boolean firstNameIsValid(string firstName)
+                    + boolean lastNameIsValid(string lastName)
+                }
+            }
         }
 
         package RegisterUserController {
             class RegisterUserController {
-                + Response handleRegisterUserRequest(RegisterUserRequest registerUserRequest, RegisterUserGateway registerUserGateway)
+                + Response handleRegisterUserRequest(RegisterUserRequest registerUserRequest, RegisterUserGateway registerUserGateway, UserRegistrationInputValidator userRegistrationInputValidator)
             }
 
             class RegisterUserRequest {
@@ -93,6 +105,7 @@ package features {
                 - string password
                 - string firstname
                 - string lastname
+                + construct(UserRegistrationInputValidator userRegistrationInputValidator)
                 + string getUsername()
                 + self setUsername(string username)
                 + string getEmail()
@@ -103,6 +116,15 @@ package features {
                 + self setFirstname(string firstname)
                 + string getLastname()
                 + self setLastname(string lastname)
+            }
+
+            interface UserRegistrationInputValidator {
+                + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
+                + boolean usernameHasAtLeat3Letters(string username)
+                + boolean emailIsValid(string email)
+                + boolean passwordIsValid(string password)
+                + boolean firstNameIsValid(string firstName)
+                + boolean lastNameIsValid(string lastName)
             }
 
             interface RegisterUserGateway {
