@@ -84,9 +84,9 @@ package features {
             }
 
             class RegisterUserResponse {
-                - boolean user_is_registered
+                - boolean userIsRegistered
                 + boolean userIsRegistered()
-                + self setWetherUserSuccessfullyRegistered(boolean user_is_registered)
+                + self setWetherUserSuccessfullyRegistered(boolean userIsRegistered)
             }
         }
 
@@ -182,12 +182,12 @@ package features {
             }
 
             class AuthenticateUserResponse {
-                - boolean user_is_logged_in
-                - string access_token
+                - boolean userIsLoggedIn
+                - int userId
                 + boolean userIsLoggedIn()
                 + self setWetherUserSuccessfullyLoggedIn(boolean user_is_logged_in)
-                + string getAccessToken()
-                + self setAccessToker(string access_token)
+                + int getUserId()
+                + self setUserId(int userId)
             }
         }
 
@@ -214,87 +214,16 @@ package features {
             }
 
             class UserAuthenticationOutput {
-                + boolean user_is_logged_in
-                + string accessToken
+                - boolean userIsLoggedIn
+                - int userId
+                + boolean userIsLoggedIn()
+                + self setWetherUserSuccessfullyLoggedIn(boolean user_is_logged_in)
+                + int getUserId()
+                + self setUserId(int userId)
             }
 
             interface AuthenticateUserOutput {
                 + void retrieveUserAuthenticationOutput(UserAuthenticationOutput userAuthenticationOutput)
-            }
-        }
-    }
-
-    package RefreshToken {
-        package RefreshTokenMain {
-            package database {
-                class PostgreSQLDatabase implements RefreshTokenGateway {
-                    + boolean RefreshToken(UserAuthenticationInput userAuthenticationInput)
-                }
-            }
-
-            package router {
-                class RefreshTokenRouter {
-                    // register "post" route to register new user
-                }
-            }
-
-            package tests {
-                // RefreshTokenTests.ts file
-            }
-        }
-
-        package RefreshTokenController {
-            class RefreshTokenController {
-                + RefreshTokenResponse handleRefreshTokenRequest(RefreshTokenRequest refreshTokenRequest)
-            }
-
-            class RefreshTokenRequest {
-                - string refreshToken
-                + string getRefreshToken()
-                + self setRefreshToken(string refreshToken)
-            }
-
-            class RefreshTokenPresenter {
-                + Response getRefreshTokenResponse()
-                + void retrieveRefreshTokenOutput(RefreshTokenOutput refreshTokenOutput)
-            }
-
-            class RefreshTokenResponse {
-                - boolean tokenIsRefreshed
-                - string accessToken
-                + boolean tokenIsRefreshed()
-                + self setWethertokenIsRefreshed(boolean tokenIsRefreshed)
-                + string getAccessToken()
-                + self setAccessToker(string accessToken)
-            }
-        }
-
-        package RefreshTokenUseCase {
-            class RefreshTokenUseCase {
-                + RefreshTokenOutput refreshToken(TokenRefreshingInput tokenRefreshingInput)
-            }
-
-            interface RefreshTokenInput {
-                + RefreshTokenOutput refreshToken(TokenRefreshingInput tokenRefreshingInput)
-            }
-
-            class TokenRefreshingInput {
-                - string refreshToken
-                + string getRefreshToken()
-                + self setRefreshToken(string refreshToken)
-            }
-
-            interface TokenProviderGateway {
-                + string refreshToken(string refreshToken)
-            }
-
-            class TokenRefreshingOutput {
-                + boolean tokenHasBeenRefreshed
-                + string accessToken
-            }
-
-            interface RefreshTokenOutput {
-                + void retrieveTokenRefreshingOutput(TokenRefreshingOutput tokenRefreshingOutput)
             }
         }
     }
