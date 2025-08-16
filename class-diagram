@@ -147,7 +147,7 @@ package features {
         package AuthenticateUserMain {
             package database {
                 class PostgreSQLDatabase implements AuthenticateUserGateway {
-                    + boolean authenticateUser(UserAuthenticationInput userAuthenticationInput)
+                    + boolean authenticateUser(string email, string password)
                 }
             }
 
@@ -224,6 +224,97 @@ package features {
 
             interface AuthenticateUserOutput {
                 + void retrieveUserAuthenticationOutput(UserAuthenticationOutput userAuthenticationOutput)
+            }
+        }
+    }
+
+    package RetrieveUser {
+        package RetrieveUserMain {
+            package database {
+                class RetrieveUserPostgreSQLDatabase implements RetrieveUserGateway {
+                    + User retrieveUser(string userId)
+                }
+            }
+
+            package router {
+                class RetrieveUserRouter {
+                    // register "post" route to register new user
+                }
+            }
+
+            package tests {
+                // retrieveUserTests.ts file
+            }
+        }
+
+        package RetrieveUserController {
+            class RetrieveUserController {
+                + RetrieveUserResponse handleRetrieveUserRequest(RetrieveUserRequest retrieveUserRequest)
+            }
+
+            class RetrieveUserRequest {
+                - string userId
+                - string requestedUserId
+                + string getUserId()
+                + self setUserId(string userId)
+                + string getRequestedUserId()
+                + self setRequestedUserId(string requestedUserId)
+            }
+
+            class RetrieveUserPresenter {
+                + RetrieveUserResponse getRetrieveUserResponse()
+                + void retrieveUserRetrievalOutput(UserRetrievalOutput userRetrievalOutput)
+            }
+
+            class RetrieveUserResponse {
+                - string email
+                - string firstName
+                - string lastName
+                + string getEmail()
+                + self setEmail(string email)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+        }
+
+        package RetrieveUserUseCase {
+            class RetrieveUserUseCase {
+                + RetrieveUserOutput retrieveUser(UserRetrievalInput userRetrievalInput)
+            }
+
+            interface RetrieveUserInput {
+                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput)
+            }
+
+            class UserRetrievalInput {
+                - string userId
+                - string requestedUserId
+                + string getUserId()
+                + self setUserId(string userId)
+                + string getRequestedUserId()
+                + self setRequestedUserId(string requestedUserId)
+            }
+
+            interface RetrieveUserGateway {
+                + User retrieveUser(string userId)
+            }
+
+            class UserRetrievalOutput {
+                - string email
+                - string firstName
+                - string lastName
+                + string getEmail()
+                + self setEmail(string email)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+
+            interface AuthenticateUserOutput {
+                + void retrieveUserRetrievalOutput(UserRetrievalOutput userRetrievalOutput)
             }
         }
     }
