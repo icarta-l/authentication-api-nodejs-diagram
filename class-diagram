@@ -238,18 +238,30 @@ package features {
 
             package router {
                 class RetrieveUserRouter {
-                    // register "post" route to register new user
+                    // register "post" route to retrieve chosen user
                 }
             }
 
             package tests {
                 // retrieveUserTests.ts file
             }
+
+            package validation {
+                class RetrieveUserJoiValidation implements UserRetrievalValidator {
+                    - Joi joiValidationLibrary
+                    + boolean userIdIsValid(string userId)
+                    + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
+                    + boolean usernameHasAtLeat3Letters(string username)
+                    + boolean emailIsValid(string email)
+                    + boolean firstNameIsValid(string firstName)
+                    + boolean lastNameIsValid(string lastName)
+                }
+            }
         }
 
         package RetrieveUserController {
             class RetrieveUserController {
-                + RetrieveUserResponse handleRetrieveUserRequest(RetrieveUserRequest retrieveUserRequest)
+                + RetrieveUserResponse handleRetrieveUserRequest(RetrieveUserRequest retrieveUserRequest, RetrieveUserGateway retrieveUserGateway, UserRetrievalValidator userRetrievalValidator)
             }
 
             class RetrieveUserRequest {
@@ -267,9 +279,15 @@ package features {
             }
 
             class RetrieveUserResponse {
+                - string userId
+                - string username
                 - string email
                 - string firstName
                 - string lastName
+                + string getUserId()
+                + self setUserId(userId: string)
+                + string getUsername()
+                + self setUsername(username: string)
                 + string getEmail()
                 + self setEmail(string email)
                 + string getFirstName()
@@ -281,11 +299,11 @@ package features {
 
         package RetrieveUserUseCase {
             class RetrieveUserUseCase {
-                + RetrieveUserOutput retrieveUser(UserRetrievalInput userRetrievalInput)
+                + RetrieveUserOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalValidator userRetrievalValidator)
             }
 
             interface RetrieveUserInput {
-                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput)
+                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalValidator userRetrievalValidator)
             }
 
             class UserRetrievalInput {
@@ -298,13 +316,19 @@ package features {
             }
 
             interface RetrieveUserGateway {
-                + User retrieveUser(string userId)
+                + UserRetrievalOutput retrieveUser(string userId)
             }
 
             class UserRetrievalOutput {
+                - string userId
+                - string username
                 - string email
                 - string firstName
                 - string lastName
+                + string getUserId()
+                + self setUserId(userId: string)
+                + string getUsername()
+                + self setUsername(username: string)
                 + string getEmail()
                 + self setEmail(string email)
                 + string getFirstName()
@@ -316,6 +340,8 @@ package features {
             interface AuthenticateUserOutput {
                 + void retrieveUserRetrievalOutput(UserRetrievalOutput userRetrievalOutput)
             }
+
+            interface UserRetrievalValidator
         }
     }
 }
