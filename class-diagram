@@ -247,28 +247,20 @@ package features {
             }
 
             package validation {
-                class RetrieveUserJoiValidation implements UserRetrievalValidator {
+                class RetrieveUserInputJoiValidation implements UserRetrievalInputValidator {
                     - Joi joiValidationLibrary
                     + boolean userIdIsValid(string userId)
-                    + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
-                    + boolean usernameHasAtLeat3Letters(string username)
-                    + boolean emailIsValid(string email)
-                    + boolean firstNameIsValid(string firstName)
-                    + boolean lastNameIsValid(string lastName)
                 }
             }
         }
 
         package RetrieveUserController {
             class RetrieveUserController {
-                + RetrieveUserResponse handleRetrieveUserRequest(RetrieveUserRequest retrieveUserRequest, RetrieveUserGateway retrieveUserGateway, UserRetrievalValidator userRetrievalValidator)
+                + RetrieveUserResponse handleRetrieveUserRequest(RetrieveUserRequest retrieveUserRequest, RetrieveUserGateway retrieveUserGateway, UserRetrievalInputValidator userRetrievalInputValidator)
             }
 
             class RetrieveUserRequest {
-                - string userId
                 - string requestedUserId
-                + string getUserId()
-                + self setUserId(string userId)
                 + string getRequestedUserId()
                 + self setRequestedUserId(string requestedUserId)
             }
@@ -299,18 +291,15 @@ package features {
 
         package RetrieveUserUseCase {
             class RetrieveUserUseCase {
-                + RetrieveUserOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalValidator userRetrievalValidator)
+                + RetrieveUserOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalInputValidator userRetrievalInputValidator)
             }
 
             interface RetrieveUserInput {
-                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalValidator userRetrievalValidator)
+                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalInputValidator userRetrievalInputValidator)
             }
 
             class UserRetrievalInput {
-                - string userId
                 - string requestedUserId
-                + string getUserId()
-                + self setUserId(string userId)
                 + string getRequestedUserId()
                 + self setRequestedUserId(string requestedUserId)
             }
@@ -341,7 +330,9 @@ package features {
                 + void retrieveUserRetrievalOutput(UserRetrievalOutput userRetrievalOutput)
             }
 
-            interface UserRetrievalValidator
+            interface UserRetrievalInputValidator {
+                + boolean userIdIsValid(string userId)
+            }
         }
     }
 }
