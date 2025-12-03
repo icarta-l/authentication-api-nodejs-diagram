@@ -1,0 +1,138 @@
+package features {
+    package RegisterUser {
+        package RegisterUserMain {
+            package database {
+                class UserRegistrationOnPostgreSQLDatabase implements RegisterUserGateway {
+                    - PostgreSQLDatabase postgreSQLDatabase
+                    + constructor()
+                    + boolean registerUser(UserRegistrationInput userRegistrationInput)
+                    + boolean emailIsAvailable(string informedEmailAddress)
+                    + void connect()
+                    + void close()
+                    + any query()
+                }
+            }
+
+            package router {
+                class RegisterUserRouter {
+                    // register "post" route to register new user
+                }
+            }
+
+            package validation {
+                class RegisterUserJoiValidation implements UserRegistrationInputValidator {
+                    - Joi joiValidationLibrary
+                    + constructor()
+                    + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
+                    + boolean usernameHasAtLeat3Letters(string username)
+                    + boolean emailIsValid(string email)
+                    + boolean passwordMustBeAtLeast12CharactersLong(string password)
+                    + boolean passwordMustHaveAtLeast3LowercaseLetters(string password)
+                    + boolean passwordMustHaveAtLeast3UppercaseLetters(string password)
+                    + boolean passwordMustHaveAtLeast3Symbols(string password)
+                    + boolean passwordMustHaveAtLeast3Numbers(string password)
+                    + boolean firstNameHasLettersOnly(string firstName)
+                    + boolean lastNameHasLettersOnly(string lastName)
+                }
+            }
+        }
+
+        package RegisterUserController {
+            class RegisterUserController implements RegisterUserInput {
+                + RegisterUserResponse handleRegisterUserRequest(RegisterUserRequest registerUserRequest, RegisterUserGateway registerUserGateway, UserRegistrationInputValidator userRegistrationInputValidator)
+                + UserRegistrationOutput registerUser(userRegistrationInput: UserRegistrationInput, registerUserGateway: RegisterUserGateway)
+            }
+
+            class RegisterUserRequest {
+                - string username
+                - string email
+                - string password
+                - string firstName
+                - string lastName
+                + string getUsername()
+                + self setUsername(string username)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+
+            class RegisterUserPresenter implements RegisterUserOutput {
+                + Response getRegisterUserResponse()
+                + void retrieveUserRegistrationOutput(UserRegistrationOutput userRegistrationOutput)
+            }
+
+            class RegisterUserResponse {
+                - boolean _userIsRegistered
+                + boolean userIsRegistered()
+                + self setWetherUserSuccessfullyRegistered(boolean userIsRegistered)
+            }
+        }
+
+        package RegisterUserUseCase {
+            class RegisterUserUseCase {
+                + UserRegistrationOutput registerUser(UserRegistrationInput userRegistrationInput, RegisterUserGateway registerUserGateway)
+            }
+
+            interface RegisterUserInput {
+                + UserRegistrationOutput registerUser(UserRegistrationInput userRegistrationInput, RegisterUserGateway registerUserGateway)
+            }
+
+            class UserRegistrationInput {
+                - string username
+                - string email
+                - string password
+                - string firstName
+                - string lastName
+                - UserRegistrationInputValidator userRegistrationInputValidator
+                + construct(UserRegistrationInputValidator userRegistrationInputValidator)
+                + string getUsername()
+                + self setUsername(string username)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+
+            interface UserRegistrationInputValidator {
+                + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
+                + boolean usernameHasAtLeat3Letters(string username)
+                + boolean emailIsValid(string email)
+                + boolean passwordMustBeAtLeast12CharactersLong(string password)
+                + boolean passwordMustHaveAtLeast3LowercaseLetters(string password)
+                + boolean passwordMustHaveAtLeast3UppercaseLetters(string password)
+                + boolean passwordMustHaveAtLeast3Symbols(string password)
+                + boolean passwordMustHaveAtLeast3Numbers(string password)
+                + boolean firstNameHasLettersOnly(string firstName)
+                + boolean lastNameHasLettersOnly(string lastName)
+            }
+
+            interface RegisterUserGateway {
+                + boolean registerUser(UserRegistrationInput userRegistrationInput)
+                + boolean emailIsAvailable(string informedEmailAddress)
+            }
+
+            class UserRegistrationOutput {
+                - boolean _userIsRegistered
+                + boolean userIsRegistered()
+                + self setWetherUserSuccessfullyRegistered(boolean userIsRegistered)
+            }
+
+            interface RegisterUserOutput {
+                + void retrieveUserRegistrationOutput(UserRegistrationOutput userRegistrationOutput)
+            }
+        }
+
+        package tests {
+            // RegisterUserTests.ts file
+        }
+    }
+}

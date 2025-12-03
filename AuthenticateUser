@@ -1,0 +1,102 @@
+package features {
+    package AuthenticateUser {
+        package AuthenticateUserMain {
+            package database {
+                class UserAuthenticationOnPostgreSQLDatabase implements AuthenticateUserGateway {
+                    - PostgreSQLDatabase postgreSQLDatabase
+                    + constructor()
+                    + string|false authenticateUser(string email, string password)
+                    + void connect()
+                    + void close()
+                    + any query()
+                }
+            }
+
+            package router {
+                class AuthenticateUserRouter {
+                    // register "post" route to register new user
+                }
+            }
+
+            package validation {
+                package AuthenticateUserJoiValidation implements UserAuthenticationInputValidator {
+                    + constructor()
+                    + boolean emailMustBeValid(string email)
+                }
+            }
+        }
+
+        package AuthenticateUserController {
+            class AuthenticateUserController implements AuthenticateUserInput {
+                + AuthenticateUserResponse handleAuthenticateUserRequest(AuthenticateUserRequest authenticateUserRequest, AuthenticateUserGateway authenticateUserGateway, UserAuthenticationInputValidator userAuthenticationInputValidator)
+                + UserAuthenticationOutput authenticateUser(UserAuthenticationInput userAuthenticationInput, AuthenticateUserGateway authenticateUserGateway)
+            }
+
+            class AuthenticateUserRequest {
+                - string email
+                - string password
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+            }
+
+            class AuthenticateUserPresenter implements AuthenticateUserOutput {
+                - AuthenticateUserResponse authenticateUserResponse
+                + Response getAuthenticateUserResponse()
+                + void retrieveUserAuthenticationOutput(UserAuthenticationOutput userAuthenticationOutput)
+            }
+
+            class AuthenticateUserResponse {
+                - boolean _userIsLoggedIn
+                - int userId
+                + boolean userIsLoggedIn()
+                + self setWetherUserSuccessfullyLoggedIn(boolean user_is_logged_in)
+                + int getUserId()
+                + self setUserId(int userId)
+            }
+        }
+
+        package AuthenticateUserUseCase {
+            class AuthenticateUserUseCase {
+                + AuthenticateUserOutput authenticateUser(UserAuthenticationInput userAuthenticationInput, AuthenticateUserGateway authenticateUserGateway)
+            }
+
+            interface AuthenticateUserInput {
+                + AuthenticateUserOutput authenticateUser(UserAuthenticationInput userAuthenticationInput, AuthenticateUserGateway authenticateUserGateway)
+            }
+
+            class UserAuthenticationInput {
+                - string email
+                - string password
+                - UserAuthenticationInputValidator userAuthenticationInputValidator
+                + construct(UserAuthenticationInputValidator userAuthenticationInputValidator)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getPassword()
+                + self setPassword(string password)
+            }
+
+            interface AuthenticateUserGateway {
+                + string|false authenticateUser(string email, string password)
+            }
+
+            class UserAuthenticationOutput {
+                - boolean userIsLoggedIn
+                - int userId
+                + boolean userIsLoggedIn()
+                + self setWetherUserSuccessfullyLoggedIn(boolean user_is_logged_in)
+                + int getUserId()
+                + self setUserId(int userId)
+            }
+
+            interface AuthenticateUserOutput {
+                + void retrieveUserAuthenticationOutput(UserAuthenticationOutput userAuthenticationOutput)
+            }
+        }
+
+        package tests {
+            // AuthenticateUserTests.ts file
+        }
+    }
+}

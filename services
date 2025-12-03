@@ -1,0 +1,27 @@
+package services {
+    package database {
+        class PostgreSQLDatabase {
+            - Client client
+            - PostgreSQLDatabase postgreSQLDatabase
+            - boolean _isConnected
+            + void connect()
+            + void close()
+            + any query()
+            + self getInstance()
+        }
+    }
+
+    package errors {
+        class BadRequestError {
+            + string getMessage()
+        }
+
+        class InvalidRetrievedValuesError {
+            + string getMessage()
+        }
+
+        class UnauthorisedActionError {
+            + string getMessage()
+        }
+    }
+}

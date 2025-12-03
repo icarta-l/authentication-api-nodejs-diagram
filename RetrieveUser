@@ -1,0 +1,139 @@
+package features {
+    package RetrieveUser {
+        package RetrieveUserMain {
+            package database {
+                class UserRetrievalOnPostgreSQLDatabase implements RetrieveUserGateway {
+                    - PostgreSQLDatabase postgreSQLDatabase
+                    + constructor()
+                    + UserRetrievalOutput|false retrieveUser(string userId)
+                    + void connect()
+                    + void close()
+                    + any query()
+                }
+            }
+
+            package router {
+                class RetrieveUserRouter {
+                    // register "post" route to retrieve chosen user
+                }
+            }
+
+            package validation {
+                class RetrieveUserInputJoiValidation implements UserRetrievalInputValidator {
+                    - Joi joiValidationLibrary
+                    + constructor()
+                    + boolean userIdIsValid(string userId)
+                }
+
+                class RetrieveUserOutputJoiValidation implements UserRetrievalOutputValidator {
+                    - Joi joiValidationLibrary
+                    + constructor()
+                    + boolean usernameHasAtLeat3Letters(string username)
+                    + boolean usernameHasOnlyLettersNumberAndUnderscores(string username)
+                    + boolean emailMustBeValid(string email)
+                    + boolean firstNameHasLettersOnly(string firstName)
+                    + boolean lastNameHasLettersOnly(string lastName)
+                }
+            }
+        }
+
+        package RetrieveUserController {
+            class RetrieveUserController implements RetrieveUserInput {
+                + RetrieveUserResponse handleRetrieveUserRequest(RetrieveUserRequest retrieveUserRequest, RetrieveUserGateway retrieveUserGateway, UserRetrievalInputValidator userRetrievalInputValidator, UserRetrievalOutputValidator userRetrievalOutputValidator)
+                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalOutputValidator userRetrievalOutputValidator)
+            }
+
+            class RetrieveUserRequest {
+                - string requestedUserId
+                + string getRequestedUserId()
+                + self setRequestedUserId(string requestedUserId)
+            }
+
+            class RetrieveUserPresenter implements RetrieveUserOutput {
+                - RetrieveUserResponse retrieveUserResponse
+                + RetrieveUserResponse getRetrieveUserResponse()
+                + void retrieveUserRetrievalOutput(UserRetrievalOutput userRetrievalOutput)
+            }
+
+            class RetrieveUserResponse {
+                - string userId
+                - string username
+                - string email
+                - string firstName
+                - string lastName
+                + string getUserId()
+                + self setUserId(userId: string)
+                + string getUsername()
+                + self setUsername(username: string)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+        }
+
+        package RetrieveUserUseCase {
+            class RetrieveUserUseCase {
+                + RetrieveUserOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway)
+            }
+
+            interface RetrieveUserInput {
+                + UserRetrievalOutput retrieveUser(UserRetrievalInput userRetrievalInput, RetrieveUserGateway retrieveUserGateway, UserRetrievalOutputValidator userRetrievalOutputValidator)
+            }
+
+            class UserRetrievalInput {
+                - string requestedUserId
+                - UserRetrievalInputValidator userRetrievalInputValidator
+                + constructor(UserRetrievalInputValidator userRetrievalInputValidator)
+                + string getRequestedUserId()
+                + self setRequestedUserId(string requestedUserId)
+            }
+
+            interface RetrieveUserGateway {
+                + UserRetrievalOutput|false retrieveUser(string userId)
+            }
+
+            class UserRetrievalOutput {
+                - string userId
+                - string username
+                - string email
+                - string firstName
+                - string lastName
+                - UserRetrievalOutputValidator userRetrievalOutputValidator
+                + constructor(UserRetrievalOutputValidator userRetrievalOutputValidator)
+                + string getUserId()
+                + self setUserId(userId: string)
+                + string getUsername()
+                + self setUsername(username: string)
+                + string getEmail()
+                + self setEmail(string email)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+
+            interface RetrieveUserOutput {
+                + void retrieveUserRetrievalOutput(UserRetrievalOutput userRetrievalOutput)
+            }
+
+            interface UserRetrievalInputValidator {
+                + boolean userIdIsValid(string userId)
+            }
+
+            interface UserRetrievalOutputValidator {
+                + boolean usernameIsOnlyLettersNumbersAndUnderscores(string username)
+                + boolean usernameHasAtLeat3Letters(string username)
+                + boolean emailIsValid(string email)
+                + boolean firstNameHasLettersOnly(string firstName)
+                + boolean lastNameHasLettersOnly(string lastName)
+            }
+        }
+
+        package tests {
+            // retrieveUserTests.ts file
+        }
+    }
+}
