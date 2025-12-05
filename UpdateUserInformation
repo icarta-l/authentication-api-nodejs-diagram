@@ -1,0 +1,117 @@
+package features {
+    package UpdateUserInformation {
+        package UpdateUserInformationMain {
+            package database {
+                class UserInformationUpdateOnPostgreSQLDatabase implements UpdateUserInformationGateway {
+                    - PostgreSQLDatabase postgreSQLDatabase
+                    + constructor()
+                    + UserInformationUpdateOutput updateUserInformation(UserInformationUpdateInput userInformationUpdateInput)
+                    + void connect()
+                    + void close()
+                    + any query()
+                }
+            }
+
+            package router {
+                class UpdateUserInformationRouter {
+                    // register "post" route to retrieve chosen user
+                }
+            }
+
+            package validation {
+                class UpdateUserInformationInputJoiValidation implements UserInformationUpdateInputValidator {
+                    - Joi joiValidationLibrary
+                    + constructor()
+                    + boolean firstNameHasLettersOnly(string firstName)
+                    + boolean lastNameHasLettersOnly(string lastName)
+                }
+            }
+        }
+
+        package UpdateUserInformationController {
+            class UpdateUserInformationController implements UpdateUserInformationInput {
+                + UpdateUserInformationResponse handleUpdateUserInformationRequest(UpdateUserInformationRequest updateUserInformationRequest, UpdateUserInformationGateway retrieveUserGateway, UserRetrievalInputValidator userRetrievalInputValidator)
+                + UpdateUserInformationOutput updateUserInformation(UserInformationUpdateInput userInformationUpdateInput, UpdateUserInformationGateway updateUserInformationGateway)
+            }
+
+            class UpdateUserInformationRequest {
+                - string userId
+                - string updatedUserId
+                - string firstName
+                - string lastName
+                - UserInformationUpdateInputValidator userInformationUpdateInputValidator
+                + constructor(UserInformationUpdateInputValidator userInformationUpdateInputValidator)
+                + string getUserId()
+                + self setUserId(string userId)
+                + string getUpdatedUserId()
+                + self setUpdatedUserId(string updatedUserId)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+
+            class UpdateUserInformationPresenter implements UpdateUserInformationOutput {
+                - UpdateUserInformationResponse updateUserInformationResponse
+                + UpdateUserInformationResponse getUpdateUserInformationResponse()
+                + void retrieveUserInformationUpdateOutput(UserInformationUpdateOutput userInformationUpdateOutput)
+            }
+
+            class UpdateUserInformationResponse {
+                - boolean _userInformationWereUpdated 
+                + boolean userInformationWereUpdated()
+                + self setWetherTheUserInformationWereUpdated(boolean userInformationWereUpdated)
+            }
+        }
+
+        package UpdateUserInformationUseCase {
+            class UpdateUserInformationUseCase {
+                + UpdateUserInformationOutput updateUserInformation(UserInformationUpdateInput userInformationUpdateInput, UpdateUserInformationGateway updateUserInformationGateway)
+            }
+
+            interface UpdateUserInformationInput {
+                + UpdateUserInformationOutput updateUserInformation(UserInformationUpdateInput userInformationUpdateInput, UpdateUserInformationGateway updateUserInformationGateway)
+            }
+
+            class UserInformationUpdateInput {
+                - string userId
+                - string updatedUserId
+                - string firstName
+                - string lastName
+                - UserInformationUpdateInputValidator userInformationUpdateInputValidator
+                + constructor(UserInformationUpdateInputValidator userInformationUpdateInputValidator)
+                + string getUserId()
+                + self setUserId(string userId)
+                + string getUpdatedUserId()
+                + self setUpdatedUserId(string updatedUserId)
+                + string getFirstName()
+                + self setFirstName(string firstName)
+                + string getLastName()
+                + self setLastName(string lastName)
+            }
+
+            interface UpdateUserInformationGateway {
+                + UserInformationUpdateOutput updateUserInformation(UserInformationUpdateInput userInformationUpdateInput)
+            }
+
+            class UserInformationUpdateOutput {
+                - boolean _userInformationWereUpdated 
+                + boolean userInformationWereUpdated()
+                + self setWetherTheUserInformationWereUpdated(boolean userInformationWereUpdated)
+            }
+
+            interface UpdateUserInformationOutput {
+                + void retrieveUserInformationUpdateOutput(UserInformationUpdateOutput userInformationUpdateOutput)
+            }
+
+            interface UserInformationUpdateInputValidator {
+                + boolean firstNameHasLettersOnly(string firstName)
+                + boolean lastNameHasLettersOnly(string lastName)
+            }
+        }
+
+        package tests {
+            // retrieveUserTests.ts file
+        }
+    }
+}
