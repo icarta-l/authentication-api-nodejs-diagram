@@ -36,15 +36,12 @@ package features {
 
             class UpdateUserInformationRequest {
                 - string userId
-                - string updatedUserId
                 - string firstName
                 - string lastName
                 - UserInformationUpdateInputValidator userInformationUpdateInputValidator
                 + constructor(UserInformationUpdateInputValidator userInformationUpdateInputValidator)
                 + string getUserId()
                 + self setUserId(string userId)
-                + string getUpdatedUserId()
-                + self setUpdatedUserId(string updatedUserId)
                 + string getFirstName()
                 + self setFirstName(string firstName)
                 + string getLastName()
@@ -75,15 +72,12 @@ package features {
 
             class UserInformationUpdateInput {
                 - string userId
-                - string updatedUserId
                 - string firstName
                 - string lastName
                 - UserInformationUpdateInputValidator userInformationUpdateInputValidator
                 + constructor(UserInformationUpdateInputValidator userInformationUpdateInputValidator)
                 + string getUserId()
                 + self setUserId(string userId)
-                + string getUpdatedUserId()
-                + self setUpdatedUserId(string updatedUserId)
                 + string getFirstName()
                 + self setFirstName(string firstName)
                 + string getLastName()
