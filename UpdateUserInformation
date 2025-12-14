@@ -32,7 +32,7 @@ package features {
 
         package UpdateUserInformationController {
             class UpdateUserInformationController implements UpdateUserInformationInput {
-                + UpdateUserInformationResponse handleUpdateUserInformationRequest(UpdateUserInformationRequest updateUserInformationRequest, UpdateUserInformationGateway retrieveUserGateway, UserRetrievalInputValidator userRetrievalInputValidator)
+                + UpdateUserInformationResponse handleUpdateUserInformationRequest(UpdateUserInformationRequest updateUserInformationRequest, UpdateUserInformationGateway retrieveUserGateway, UserInformationUpdateInputValidator userInformationUpdateInputValidator)
                 + UpdateUserInformationOutput updateUserInformation(UserInformationUpdateInput userInformationUpdateInput, UpdateUserInformationGateway updateUserInformationGateway)
             }
 
@@ -41,8 +41,6 @@ package features {
                 - string udpatedUserId
                 - string firstName
                 - string lastName
-                - UserInformationUpdateInputValidator userInformationUpdateInputValidator
-                + constructor(UserInformationUpdateInputValidator userInformationUpdateInputValidator)
                 + string getUserId()
                 + self setUserId(string userId)
                 + string getUpdatedUserId()
