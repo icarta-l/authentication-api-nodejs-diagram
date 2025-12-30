@@ -7,7 +7,14 @@ package services {
             + void connect()
             + void close()
             + any query()
+            + string getUserRole(string userId)
             + self getInstance()
+        }
+    }
+
+    package validation {
+        class TypeValidator {
+            + bool isString(testedVariable: any, variableName: string)
         }
     }
 
