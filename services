@@ -31,4 +31,8 @@ package services {
             + string getMessage()
         }
     }
+
+    package middleware {
+        function AuthenticationMiddleware()
+    }
 }
