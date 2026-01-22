@@ -27,6 +27,11 @@ package features {
                     + boolean firstNameHasLettersOnly(string firstName)
                     + boolean lastNameHasLettersOnly(string lastName)
                 }
+
+                class UpdateUserInformationTypeValidator implements UpdateUserInformationTypeValidation {
+                    - TypeValidator typeValidator
+                    + bool isString(testedVariable: any, variableName: string)
+                }
             }
         }
 
@@ -41,6 +46,8 @@ package features {
                 - string udpatedUserId
                 - string firstName
                 - string lastName
+                - UpdateUserInformationTypeValidation updateUserInformationTypeValidation
+                + constructor(UpdateUserInformationTypeValidation updateUserInformationTypeValidation)
                 + string getUserId()
                 + self setUserId(string userId)
                 + string getUpdatedUserId()
@@ -49,6 +56,10 @@ package features {
                 + self setFirstName(string firstName)
                 + string getLastName()
                 + self setLastName(string lastName)
+            }
+
+            interface UpdateUserInformationTypeValidation {
+                + bool isString(testedVariable: any, variableName: string)
             }
 
             class UpdateUserInformationPresenter implements UpdateUserInformationOutput {
