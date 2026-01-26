@@ -34,6 +34,11 @@ package features {
                     + boolean firstNameHasLettersOnly(string firstName)
                     + boolean lastNameHasLettersOnly(string lastName)
                 }
+
+                class RetrieveUserTypeValidator implements RetrieveUserTypeValidation {
+                    - TypeValidator typeValidator
+                    + bool isString(testedVariable: any, variableName: string)
+                }
             }
         }
 
@@ -45,8 +50,14 @@ package features {
 
             class RetrieveUserRequest {
                 - string requestedUserId
+                - RetrieveUserTypeValidation retrieveUserTypeValidation
+                + constructor(RetrieveUserTypeValidation retrieveUserTypeValidation)
                 + string getRequestedUserId()
                 + self setRequestedUserId(string requestedUserId)
+            }
+
+            interface RetrieveUserTypeValidation {
+                + bool isString(testedVariable: any, variableName: string)
             }
 
             class RetrieveUserPresenter implements RetrieveUserOutput {

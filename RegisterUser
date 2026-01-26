@@ -34,6 +34,11 @@ package features {
                     + boolean firstNameHasLettersOnly(string firstName)
                     + boolean lastNameHasLettersOnly(string lastName)
                 }
+
+                class RegisterUserTypeValidator implements RegisterUserTypeValidation {
+                    - TypeValidator typeValidator
+                    + bool isString(testedVariable: any, variableName: string)
+                }
             }
         }
 
@@ -49,6 +54,8 @@ package features {
                 - string password
                 - string firstName
                 - string lastName
+                - RegisterUserTypeValidation registerUserTypeValidation
+                + constructor(RegisterUserTypeValidation registerUserTypeValidation)
                 + string getUsername()
                 + self setUsername(string username)
                 + string getEmail()
@@ -59,6 +66,10 @@ package features {
                 + self setFirstName(string firstName)
                 + string getLastName()
                 + self setLastName(string lastName)
+            }
+
+            interface RegisterUserTypeValidation {
+                + bool isString(testedVariable: any, variableName: string)
             }
 
             class RegisterUserPresenter implements RegisterUserOutput {
