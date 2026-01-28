@@ -19,9 +19,14 @@ package features {
             }
 
             package validation {
-                package AuthenticateUserJoiValidation implements UserAuthenticationInputValidator {
+                class AuthenticateUserJoiValidation implements UserAuthenticationInputValidator {
                     + constructor()
                     + boolean emailMustBeValid(string email)
+                }
+
+                class AuthenticateUserTypeValidator implements AuthenticateUserTypeValidation {
+                    - TypeValidator typeValidator
+                    + bool isString(testedVariable: any, variableName: string)
                 }
             }
         }
@@ -35,10 +40,16 @@ package features {
             class AuthenticateUserRequest {
                 - string email
                 - string password
+                - AuthenticateUserTypeValidation authenticateUserTypeValidation
+                + constructor(AuthenticateUserTypeValidation authenticateUserTypeValidation)
                 + string getEmail()
                 + self setEmail(string email)
                 + string getPassword()
                 + self setPassword(string password)
+            }
+
+            interface AuthenticateUserTypeValidation {
+                + bool isString(testedVariable: any, variableName: string)
             }
 
             class AuthenticateUserPresenter implements AuthenticateUserOutput {
